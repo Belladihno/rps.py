@@ -15,6 +15,8 @@ class Player:
         self.my_move = my_move
         self.their_move = their_move
 
+    def move(self):
+        pass  
 
 class HumanPlayer(Player):
     def __init__(self):
@@ -29,16 +31,13 @@ class HumanPlayer(Player):
             else:
                 print('Wrong move. Try again!')
 
-
 class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
 
-
 class RepeatPlayer(Player):
     def move(self):
         return 'rock'
-
 
 class ReflectPlayer(Player):
     def move(self):
@@ -47,6 +46,9 @@ class ReflectPlayer(Player):
         else:
             return self.their_move
 
+    def learn(self, my_move, their_move):
+        super().learn(my_move, their_move)  # Call the base class learn method to store opponent's move
+        self.my_move = my_move  # Remember the player's move
 
 class CyclePlayer(Player):
     def move(self):
@@ -58,18 +60,15 @@ class CyclePlayer(Player):
                 index = 0
             return moves[index]
 
-
 def p1_win(move1, move2):
     return (move1 == 'scissors' and move2 == 'paper') or \
            (move1 == 'paper' and move2 == 'rock') or \
            (move1 == 'rock' and move2 == 'scissors')
 
-
 def p2_win(move1, move2):
     return (move1 == 'paper' and move2 == 'scissors') or \
            (move1 == 'rock' and move2 == 'paper') or \
            (move1 == 'scissors' and move2 == 'rock')
-
 
 class SingleRound:
     def __init__(self, player1, player2):
@@ -101,7 +100,6 @@ class SingleRound:
         print('       SCORE')
         print(f'Human: {self.player1.score} | Computer: {self.player2.score}\n')
 
-
 class Match:
     def __init__(self, player1, player2, rounds):
         self.player1 = player1
@@ -120,6 +118,17 @@ class Match:
         self.player1.score = 0
         self.player2.score = 0
 
+def replay():
+    play_again = input("Would you like to play again? (yes/no) ").lower()
+    if play_again == "yes":
+        print("Restarting the game...\n")
+        return True
+    elif play_again == "no":
+        print("Thanks for playing! Goodbye!\n")
+        return False
+    else:
+        print("Invalid input. Please enter 'yes' or 'no'.\n")
+        return replay()
 
 if __name__ == '__main__':
     player_characters = {
@@ -133,7 +142,8 @@ if __name__ == '__main__':
     while True:
         print('ROCK, PAPER, SCISSORS - GO!\n')
         time.sleep(1)
-        print('Here are the rules of the game: \nRock wins against scissors, paper wins against rock, and scissors wins against paper.\n')
+        print('Here are the rules of the game: \nRock wins against ' 
+              'scissors, paper wins against rock, and scissors wins against paper.\n')
 
         choice = input('CHOOSE AN OPPONENT: (random / reflect / repeat / cycle)\n').lower()
 
@@ -144,7 +154,5 @@ if __name__ == '__main__':
         else:
             print('Wrong player. Try again!')
 
-        play_again = input('Do you want to play again? (yes/no)\n').lower()
-        if play_again != 'yes':
-            print("THANK YOU FOR PLAYING")
+        if not replay():
             break

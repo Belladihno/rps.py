@@ -1,6 +1,7 @@
 import random
 import time
 
+
 moves = ['rock', 'paper', 'scissors']
 
 class Player:

@@ -18,6 +18,7 @@ class Player:
     def move(self):
         pass
 
+
 class HumanPlayer(Player):
     def __init__(self):
         super().__init__()
@@ -31,9 +32,11 @@ class HumanPlayer(Player):
             else:
                 print('Wrong move. Try again!')
 
+
 class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
+
 
 class RepeatPlayer(Player):
     def __init__(self):
@@ -49,6 +52,7 @@ class RepeatPlayer(Player):
     def remember_human_move(self, human_move):
         self.previous_human_move = human_move  
 
+
 class ReflectPlayer(Player):
     def move(self):
         if self.their_move is None:
@@ -60,6 +64,7 @@ class ReflectPlayer(Player):
         super().learn(my_move, their_move)
         self.my_move = my_move
 
+
 class CyclePlayer(Player):
     def move(self):
         if self.my_move is None:
@@ -68,12 +73,14 @@ class CyclePlayer(Player):
             index = (moves.index(self.my_move) + 1) % len(moves)
             return moves[index]
                     
+                    
 def win(move1, move2):
     return (
         (move1 == 'scissors' and move2 == 'paper') or
         (move1 == 'paper' and move2 == 'rock') or
         (move1 == 'rock' and move2 == 'scissors')
     )
+
 
 class SingleRound:
     def __init__(self, player1, player2):
@@ -105,6 +112,7 @@ class SingleRound:
         print('       SCORE')
         print(f'Human: {self.player1.score} | Computer: {self.player2.score}\n')
 
+
 class Match:
     def __init__(self, player1, player2, rounds):
         self.player1 = player1
@@ -134,6 +142,7 @@ def replay():
     else:
         print("Invalid input. Please enter 'yes' or 'no'.\n")
         return replay()
+
 
 if __name__ == '__main__':
     player_characters = {

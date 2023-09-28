@@ -1,7 +1,6 @@
 import random
 import time
 
-
 moves = ['rock', 'paper', 'scissors']
 
 class Player:
@@ -16,7 +15,7 @@ class Player:
         self.their_move = their_move
 
     def move(self):
-        pass  
+        pass
 
 class HumanPlayer(Player):
     def __init__(self):
@@ -25,7 +24,7 @@ class HumanPlayer(Player):
 
     def move(self):
         while True:
-            move = input('CHOOSE A MOVE: (rock / paper / scissors) \n').lower()
+            move = input('CHOOSE A MOVE: (rock / paper / scissors)\n').lower()
             if move in moves:
                 return move
             else:
@@ -47,8 +46,8 @@ class ReflectPlayer(Player):
             return self.their_move
 
     def learn(self, my_move, their_move):
-        super().learn(my_move, their_move)  # Call the base class learn method to store opponent's move
-        self.my_move = my_move  # Remember the player's move
+        super().learn(my_move, their_move)
+        self.my_move = my_move
 
 class CyclePlayer(Player):
     def move(self):

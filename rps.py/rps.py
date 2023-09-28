@@ -36,8 +36,18 @@ class RandomPlayer(Player):
         return random.choice(moves)
 
 class RepeatPlayer(Player):
+    def __init__(self):
+        super().__init__()
+        self.previous_human_move = None  
+
     def move(self):
-        return 'rock'
+        if self.previous_human_move is None:
+            return 'rock' 
+        else:
+            return self.previous_human_move 
+         
+    def remember_human_move(self, human_move):
+        self.previous_human_move = human_move  
 
 class ReflectPlayer(Player):
     def move(self):
@@ -55,20 +65,15 @@ class CyclePlayer(Player):
         if self.my_move is None:
             return random.choice(moves)
         else:
-            index = moves.index(self.my_move) + 1
-            if index == len(moves):
-                index = 0
+            index = (moves.index(self.my_move) + 1) % len(moves)
             return moves[index]
-
-def p1_win(move1, move2):
-    return (move1 == 'scissors' and move2 == 'paper') or \
-           (move1 == 'paper' and move2 == 'rock') or \
-           (move1 == 'rock' and move2 == 'scissors')
-
-def p2_win(move1, move2):
-    return (move1 == 'paper' and move2 == 'scissors') or \
-           (move1 == 'rock' and move2 == 'paper') or \
-           (move1 == 'scissors' and move2 == 'rock')
+                    
+def win(move1, move2):
+    return (
+        (move1 == 'scissors' and move2 == 'paper') or
+        (move1 == 'paper' and move2 == 'rock') or
+        (move1 == 'rock' and move2 == 'scissors')
+    )
 
 class SingleRound:
     def __init__(self, player1, player2):
@@ -85,10 +90,10 @@ class SingleRound:
         time.sleep(1)
         print(f'Player 1: {move1}  Player 2: {move2}')
 
-        if p1_win(move1, move2):
+        if win(move1, move2):
             self.player1.score += 1
             print('-- YOU WIN! --\n')
-        elif p2_win(move1, move2):
+        elif win(move2, move1):
             self.player2.score += 1
             print('-- OH SH*T! --\n')
         else:
@@ -142,7 +147,7 @@ if __name__ == '__main__':
     while True:
         print('ROCK, PAPER, SCISSORS - GO!\n')
         time.sleep(1)
-        print('Here are the rules of the game: \nRock wins against ' 
+        print('Here are the rules of the game: \nRock wins against '
               'scissors, paper wins against rock, and scissors wins against paper.\n')
 
         choice = input('CHOOSE AN OPPONENT: (random / reflect / repeat / cycle)\n').lower()

@@ -4,6 +4,7 @@ import time
 
 moves = ['rock', 'paper', 'scissors']
 
+
 class Player:
     score = 0
 
@@ -41,16 +42,16 @@ class RandomPlayer(Player):
 class RepeatPlayer(Player):
     def __init__(self):
         super().__init__()
-        self.previous_human_move = None  
+        self.previous_human_move = None
 
     def move(self):
         if self.previous_human_move is None:
-            return 'rock' 
+            return 'rock'
         else:
-            return self.previous_human_move 
-         
+            return self.previous_human_move
+
     def remember_human_move(self, human_move):
-        self.previous_human_move = human_move  
+        self.previous_human_move = human_move
 
 
 class ReflectPlayer(Player):
@@ -72,8 +73,8 @@ class CyclePlayer(Player):
         else:
             index = (moves.index(self.my_move) + 1) % len(moves)
             return moves[index]
-                    
-                    
+
+
 def win(move1, move2):
     return (
         (move1 == 'scissors' and move2 == 'paper') or
@@ -131,6 +132,7 @@ class Match:
         self.player1.score = 0
         self.player2.score = 0
 
+
 def replay():
     play_again = input("Would you like to play again? (yes/no) ").lower()
     if play_again == "yes":
@@ -159,11 +161,13 @@ if __name__ == '__main__':
         print('Here are the rules of the game: \nRock wins against '
               'scissors, paper wins against rock, and scissors wins against paper.\n')
 
-        choice = input('CHOOSE AN OPPONENT: (random / reflect / repeat / cycle)\n').lower()
+        choice = input(
+            'CHOOSE AN OPPONENT: (random / reflect / repeat / cycle)\n').lower()
 
         if choice in player_characters:
             rounds = int(input('Enter the number of rounds: '))
-            match = Match(player_characters['human'], player_characters[choice], rounds)
+            match = Match(player_characters['human'],
+                          player_characters[choice], rounds)
             match.play()
         else:
             print('Wrong player. Try again!')
